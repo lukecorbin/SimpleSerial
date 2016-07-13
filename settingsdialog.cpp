@@ -174,6 +174,7 @@ void SettingsDialog::updateSettings()
     if (ui->baudRateBox->currentIndex() == 4) {
         // custom baud rate
         currentSettings.baudRate = ui->baudRateBox->currentText().toInt();
+        currentSettings.baudRateIdx =  ui->baudRateBox->currentIndex();
     } else {
         // standard baud rate
         currentSettings.baudRate = static_cast<QSerialPort::BaudRate>(

@@ -73,7 +73,7 @@ MainWindow::MainWindow(QWidget *parent) :
     cmdBaud->addItem(QLatin1String("19200"), QSerialPort::Baud19200);
     cmdBaud->addItem(QLatin1String("38400"), QSerialPort::Baud38400);
     cmdBaud->addItem(QLatin1String("115200"), QSerialPort::Baud115200);
-    cmdBaud->addItem(QLatin1String("Custom"));
+    //cmdBaud->addItem(QLatin1String("Custom"));
 
     enumeratePorts();
 
@@ -186,7 +186,10 @@ void MainWindow::openSerialPort()
             ui->statusBar->showMessage(tr("Open error"));
         }
     } else {
-        QMessageBox::critical(this, tr("Error"), serial->errorString());
+
+        //QMessageBox::critical(this, tr("Error"), serial->errorString() );
+
+        QMessageBox::critical(this, tr("Error"), tr("Unable to open that port.") );
 
         ui->statusBar->showMessage(tr("Configure error"));
     }
@@ -268,7 +271,7 @@ void MainWindow::changePort(QString selection)
         closeSerialPort();
 
     }
-    openSerialPort();
+    //openSerialPort();  must hit connect!
 }
 
 void MainWindow::changeBaud()
@@ -312,19 +315,22 @@ void MainWindow::updatePorts()
     int index = cmbPorts->findText(settings->currentSettings.name);
     if( index >= 0 ) // TODO:  fix this
     {
+        // changing this
         cmbPorts->setCurrentIndex( index );
     }
 
-    index = cmdBaud->findData(settings->currentSettings.baudRate);
-    if( index >= 0 ) // TODO:  fix this
+    int res = cmdBaud->findData(settings->currentSettings.baudRate);
+    if( res != -1 ) // TODO:  fix this
     {
-        cmdBaud->setCurrentIndex( index );
+        //Check if we have custom
+        cmdBaud->setCurrentIndex( settings->currentSettings.baudRateIdx );
     }
     else
     {
-        cmdBaud->addItem(QString(settings->currentSettings.baudRate),settings->currentSettings.baudRate);
-        index = cmbPorts->findData(settings->currentSettings.name);
-        cmbPorts->setCurrentIndex( index );
+        cmdBaud->addItem(QString::number(settings->currentSettings.baudRate),settings->currentSettings.baudRate);
+        cmdBaud->setCurrentIndex( settings->currentSettings.baudRateIdx );
+        //        index = cmbPorts->findData(settings->currentSettings.name);
+        //        cmbPorts->setCurrentIndex( index );
     }
 }
 

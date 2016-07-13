@@ -65,6 +65,7 @@ public:
     struct Settings {
         QString name;
         qint32 baudRate;
+        qint32 baudRateIdx;
         QString stringBaudRate;
         QSerialPort::DataBits dataBits;
         QString stringDataBits;
