@@ -41,6 +41,8 @@
 **
 ****************************************************************************/
 
+
+/** This handles the console ****/
 #include "console.h"
 
 #include <QScrollBar>
